@@ -1,20 +1,6 @@
 # Scripts — Detección de DNS tunneling
 
 Scripts usados 
-
-## Estructura
-
-```
-Scripts/
-├── captura/      # Laboratorio de captura del dataset propio (§3.1)
-├── dataset/      # Construcción del dataset unificado (§3.2)
-├── features/     # Selección y saturación de features (§3.3)
-├── modelos/      # Entrenamiento final XGBoost y MLP (§3.4)
-├── evaluacion/   # Domain shift y auditoría CIC (cap. 4)
-├── figuras/      # Generación de las figuras de la memoria
-├── lib/          # Código compartido (XGBFocused, familias, Platt)
-└── README.md     # Este fichero
-```
  
 
 ## Scripts
