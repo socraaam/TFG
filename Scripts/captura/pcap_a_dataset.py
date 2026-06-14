@@ -40,7 +40,7 @@ CSV_COLUMN_NAMES = [
     "unique", "entropy_avg", "entropy_stdev",
 ]
 
-# FILTRO DE CORRUPCIÓN (bytes > 127 en QNAME)
+# Filtro de corrupción (bytes > 127 en QNAME)
 def _qname_has_nonascii(raw: bytes) -> bool:
     return any(b > 127 for b in raw)
 
@@ -50,7 +50,7 @@ def _fqdn_is_clean(fqdn: str) -> bool:
     """
     return all(0x20 <= ord(c) <= 0x7E for c in fqdn)
 
-# LÉXICO DE PALABRAS EN INGLÉS
+# Léxico de palabras en inglés
 def load_english_words() -> Optional[set]:
     """Carga el léxico de palabras inglesas desde WORDS_PATH.
 
@@ -60,10 +60,8 @@ def load_english_words() -> Optional[set]:
     """
     if not WORDS_PATH.exists():
         print(
-            f"[!] No se encontro {WORDS_PATH}.\n"
-            "    Las features w_count, w_max, w_max_ratio, w_count_ratio seran 0.\n"
-            "    Descarga el fichero del dataset de Mendeley:\n"
-            "      https://data.mendeley.com/datasets/c4n7fckkz3/3",
+            f"No existe {WORDS_PATH}.\n"
+            "Las features w_count, w_max, w_max_ratio, w_count_ratio seran 0.\n",
             file=sys.stderr,
         )
         return None
@@ -75,10 +73,10 @@ def load_english_words() -> Optional[set]:
             if len(w) >= MIN_WORD_LEN:
                 words.add(w)
 
-    print(f"[+] Lexico: {len(words):,} palabras (>= {MIN_WORD_LEN} chars) cargadas desde {WORDS_PATH.name}")
+    print(f"Lexico: {len(words):,} palabras (>= {MIN_WORD_LEN} chars) cargadas desde {WORDS_PATH.name}")
     return words
 
-# EXTRACCION DE TLD Y SUBDOMINIO
+# Extracción de TLD y subdominio
 def split_fqdn(fqdn: str) -> Tuple[str, str, str]:
     """Devuelve (subdomains, registered_domain, tld).
     Fallback simple para TLDs no estándar (.local, .lab, .tfg, etc.).
@@ -100,7 +98,7 @@ def get_registered_domain(fqdn: str) -> str:
     return f"{reg}.{tld}" if tld else reg
 
 
-# FEATURES INDIVIDUALES (STATELESS)
+# Features individuales (sin estado)
 def shannon_entropy(s: str) -> float:
     """Entropía de Shannon del string s (en bits).
     Se calcula sobre todos los caracteres incluyendo puntos.
@@ -117,12 +115,8 @@ def shannon_entropy(s: str) -> float:
 def find_english_words(text: str, word_set: set) -> List[str]:
     """Busca TODAS las substrings de text que estén en word_set.
 
-    Retorna una lista con todas las ocurrencias (incluyendo solapamientos).
-    Ejemplo: "laboratory" → ["lab", "labor", "ora", "rat", ...]
+    Devuelve lista con todas las ocurrencias (incluyendo solapamientos).
     w_count = len(resultado)
-
-    Complejidad: O(n² · lookup) con n = len(text).
-    Para subdominios de iodine (≤ 253 chars) es perfectamente asumible.
     """
     text_l = text.lower()
     n = len(text_l)
@@ -232,7 +226,7 @@ def individual_features(fqdn: str, word_set: Optional[set]) -> dict:
     }
 
 
-# EXTRACCION DE DNS QUERIES DESDE PCAP
+# Extracción de queries DNS desde el pcap
 def extract_dns_queries(pcap_path: str) -> List[dict]:
     """Extrae queries DNS con Scapy.
 
@@ -246,7 +240,7 @@ def extract_dns_queries(pcap_path: str) -> List[dict]:
     try:
         pkts = rdpcap(pcap_path)
     except Exception as e:
-        print(f"[!] Error leyendo {pcap_path}: {e}", file=sys.stderr)
+        print(f"Error leyendo {pcap_path}: {e}", file=sys.stderr)
         return records
 
     for pkt in pkts:
@@ -294,10 +288,10 @@ def extract_dns_queries(pcap_path: str) -> List[dict]:
         })
 
     if filtered > 0:
-        print(f"    [filtro] {filtered:,} queries corruptas descartadas (bytes > 127)")
+        print(f"    {filtered:,} queries corruptas descartadas (bytes > 127)")
     return records
 
-# FEATURES AGREGADAS (VENTANA DESLIZANTE)
+# Features agregadas (ventana deslizante)
 def aggregated_features(window: List[dict]) -> dict:
     """Calcula las 8 features de ventana deslizante.
 
@@ -361,11 +355,11 @@ def process_pcap(
     - Los dominios largos en Base32/Base64u se incluyen.
     - La ventana deslizante agrupa por (IP cliente, dominio registrado, QTYPE).
     """
-    print(f"\n[+] Procesando: {Path(pcap_path).name}")
+    print(f"\nProcesando: {Path(pcap_path).name}")
 
     raw = extract_dns_queries(pcap_path)
     if not raw:
-        print(f"    [!] Sin queries DNS válidas.", file=sys.stderr)
+        print(f"    Sin queries DNS válidas.", file=sys.stderr)
         return pd.DataFrame(columns=CSV_COLUMN_NAMES)
 
     mixed_mode = (dns_type is None) or (dns_type.lower() == "mixed")
@@ -373,13 +367,13 @@ def process_pcap(
     if not mixed_mode:
         target = TYPE_TO_QTYPE.get(dns_type.upper())
         if target is None:
-            print(f"    [!] Tipo DNS '{dns_type}' desconocido. Procesando todo.",
+            print(f"    Tipo DNS '{dns_type}' desconocido. Procesando todo.",
                   file=sys.stderr)
             mixed_mode = True
         else:
             raw = [r for r in raw if r["qtype"] == target]
             if not raw:
-                print(f"    [!] Sin queries de tipo {dns_type}.", file=sys.stderr)
+                print(f"    Sin queries de tipo {dns_type}.", file=sys.stderr)
                 return pd.DataFrame(columns=CSV_COLUMN_NAMES)
 
     # Estadísticas de qtypes en el pcap
@@ -452,7 +446,7 @@ def process_pcap(
     print(f"    Filas generadas: {len(df):,}")
     return df
 
-# DEDUPLICACIÓN
+# Deduplicación de filas
 def deduplicate(df: pd.DataFrame) -> pd.DataFrame:
     """Elimina filas duplicadas exactas (excluye timestamp de la clave).
 
@@ -464,24 +458,24 @@ def deduplicate(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop_duplicates(subset=dedup_cols, keep="first").reset_index(drop=True)
     eliminadas = antes - len(df)
     if eliminadas > 0:
-        print(f"    [dedup] {eliminadas:,} duplicadas eliminadas ({antes:,} → {len(df):,})")
+        print(f"    {eliminadas:,} duplicadas eliminadas ({antes:,} → {len(df):,})")
     else:
-        print(f"    [dedup] Sin duplicados ({antes:,} filas)")
+        print(f"    Sin duplicados ({antes:,} filas)")
     return df
 
-# ENCONTRAR PCAPS EN CARPETA CAPTURAS
+# Busca los pcaps en la carpeta de capturas
 def find_pcaps_in_capturas(capturas_dir: Path) -> List[str]:
     if not capturas_dir.exists():
-        print(f"[!] Directorio no encontrado: {capturas_dir}", file=sys.stderr)
+        print(f"Directorio no encontrado: {capturas_dir}", file=sys.stderr)
         sys.exit(1)
     pcap_files: List[str] = []
     for ext in ("*.pcap", "*.pcapng"):
         pcap_files.extend(str(p) for p in capturas_dir.rglob(ext))
     pcap_files = sorted(set(pcap_files))
     if not pcap_files:
-        print(f"[!] No hay .pcap/.pcapng en {capturas_dir}", file=sys.stderr)
+        print(f"No hay .pcap/.pcapng en {capturas_dir}", file=sys.stderr)
         sys.exit(1)
-    print(f"[+] {len(pcap_files)} pcap(s) en {capturas_dir}:")
+    print(f"{len(pcap_files)} pcap(s) en {capturas_dir}:")
     for p in pcap_files:
         size_mb = Path(p).stat().st_size / 1_048_576
         print(f"    {Path(p).name:<55}  ({size_mb:.2f} MB)")
@@ -490,7 +484,7 @@ def find_pcaps_in_capturas(capturas_dir: Path) -> List[str]:
 def _print_stats(df: pd.DataFrame) -> None:
     total = len(df)
     if total == 0:
-        print("    [!] DataFrame vacío.")
+        print("    DataFrame vacío.")
         return
     attacks = df["attack"].astype(bool).sum()
     benign  = total - attacks
@@ -499,7 +493,7 @@ def _print_stats(df: pd.DataFrame) -> None:
     print(f"    Ataque  (True):  {attacks:>10,}  ({100*attacks/total:.1f}%)")
     print(f"    Total:           {total:>10,}")
 
-# RUTA DE SALIDA
+# Resuelve la ruta de salida del CSV
 def resolve_output_path(filename: str) -> Path:
     p = Path(filename)
     if not p.is_absolute():
@@ -507,7 +501,7 @@ def resolve_output_path(filename: str) -> Path:
     p.parent.mkdir(parents=True, exist_ok=True)
     return p
 
-# CLI
+# Argumentos de línea de comandos
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Extractor DNS compatible con Mendeley DOI 10.17632/c4n7fckkz3.3",
@@ -552,7 +546,6 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-# MAIN
 def main() -> None:
     args = parse_args()
 
@@ -567,25 +560,17 @@ def main() -> None:
         pcap_files = sorted(set(pcap_files))
 
     if not pcap_files:
-        print("[!] No se encontraron ficheros pcap.", file=sys.stderr)
+        print("No se encontraron ficheros pcap.", file=sys.stderr)
         sys.exit(1)
 
     out_path    = resolve_output_path(args.out)
     dns_type    = args.dns_type
     mixed_mode  = (dns_type is None) or (dns_type.lower() == "mixed")
 
-    print("=" * 66)
-    print("  pcap_a_dataset.py  —  Compatible con Mendeley DOI 10.17632/c4n7fckkz3.3")
-    print("=" * 66)
-    print(f"  Fuente:              {'carpeta: ' + args.capturas_dir if args.from_capturas else 'pcaps individuales'}")
-    print(f"  PCaps:               {len(pcap_files)}")
-    print(f"  Label:               {'1 (ataque)' if args.label else '0 (benigno)'}")
-    print(f"  Modo DNS:            {'MIXTO (todos los tipos)' if mixed_mode else dns_type.upper()}")
-    print(f"  Ventana:             {args.window} peticiones")
-    print(f"  Filtro corrupción:   SÍ (bytes > 127 → descartados)")
-    print(f"  Deduplicación:       SÍ")
-    print(f"  Salida:              {out_path}")
-    print("=" * 66)
+    print("pcap_a_dataset.py — compatible con Mendeley DOI 10.17632/c4n7fckkz3.3")
+    print(f"  Fuente: {'carpeta ' + args.capturas_dir if args.from_capturas else 'pcaps individuales'} ({len(pcap_files)} pcap)")
+    print(f"  Label: {'1 (ataque)' if args.label else '0 (benigno)'}  Modo DNS: {'mixto' if mixed_mode else dns_type.upper()}  Ventana: {args.window}")
+    print(f"  Salida: {out_path}")
 
     # Cargar léxico desde WORDS_PATH
     word_set = load_english_words()
@@ -604,27 +589,27 @@ def main() -> None:
             dfs.append(df)
 
     if not dfs:
-        print("\n[!] No se generaron datos.", file=sys.stderr)
+        print("\nNo se generaron datos.", file=sys.stderr)
         sys.exit(1)
 
     result = pd.concat(dfs, ignore_index=True)
 
     # Deduplicación
-    print(f"\n[+] Total filas (todos los pcaps): {len(result):,}")
+    print(f"\nTotal filas (todos los pcaps): {len(result):,}")
     result = deduplicate(result)
 
     result.to_csv(out_path, index=False)
-    print(f"\n[+] CSV guardado: {out_path}  ({len(result):,} filas)")
+    print(f"\nCSV guardado: {out_path}  ({len(result):,} filas)")
     _print_stats(result)
 
-    print("\n[+] Columnas del CSV:")
+    print("\nColumnas del CSV:")
     labels = {**{i: "meta" for i in range(5)},
               **{i: "individual" for i in range(5, 14)},
               **{i: "agregada"   for i in range(14, 22)}}
     for i, col in enumerate(CSV_COLUMN_NAMES):
         print(f"    [{i:02d}] {col:<20}  ({labels[i]})")
 
-    print(f"\n[OK] Completado. Ficheros en: {out_path.parent}")
+    print(f"\nCompletado. Ficheros en: {out_path.parent}")
 
 
 if __name__ == "__main__":

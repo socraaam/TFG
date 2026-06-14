@@ -1,7 +1,7 @@
 """
 XGBFocused: XGBoost con scale_pos_weight con tope, umbral de Youden y Platt
 scaling ajustados en un cal-set interno, y feature importances para SHAP.
-Comparte fit_with_calibration con el MLP para comparar de forma directa.
+Comparte fit_with_calibration con el MLP.
 """
 
 import numpy as np

@@ -7,8 +7,7 @@ Salida en TFG_LaTeX/img/:
   fig_seleccion_features.png   Progresion AUC LODO en el forward selection
   fig_feature_saturation.png    Curva de saturacion LODO vs in-domain (justifica 4 features)
 
-Las figuras ROC/PR y de calibracion las genera generar_figuras_modelos.py (necesitan
-reentrenar los modelos para obtener los scores del test).
+Las figuras ROC/PR y de calibracion las genera generar_figuras_modelos.py 
 """
 import sys
 from pathlib import Path

@@ -1,15 +1,11 @@
 """
 familias.py — Asignacion de familia y evaluacion LODO compartidas
 Centraliza el mapa fuente->familia, la politica de benignos y el bucle
-leave-one-family-out (LODO) que comparten seleccion_features.py,
-entrenar_xgboost.py, entrenar_mlp.py y feature_saturation.py. Antes cada
-script repetia este FAMILY_MAP de 14 entradas y su propio assign_family/LODO;
-aqui hay una sola fuente de verdad para que las cuatro rutas usen exactamente
-la misma definicion de familia y el mismo protocolo de evaluacion.
+leave-one-family-out (LODO) usados por seleccion_features.py,
+entrenar_xgboost.py, entrenar_mlp.py y feature_saturation.py.
 
-El modulo es agnostico al modelo: lodo_auc() recibe una factoria make_model()
-que devuelve un objeto con .fit_with_calibration(X, y) y .predict_proba(X)
-(asi sirve igual para XGBFocused que para el MLPWrapper de sklearn).
+El modulo es agnostico al modelo: lodo_auc() recibe una make_model()
+que devuelve un objeto con .fit_with_calibration(X, y) y .predict_proba(X).
 """
 import numpy as np
 import pandas as pd

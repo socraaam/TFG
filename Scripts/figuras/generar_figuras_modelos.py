@@ -4,22 +4,12 @@ Reentrena el XGBoost y el MLP finales sobre el mismo split in-domain 70/30
 (semilla 42) y produce:
 
   resultados/operating_points/operating_points.csv
-      Punto de operacion de cada modelo en el umbral de Youden fijado en
-      calibracion: TPR, FPR, precision, recall, F1, especificidad, accuracy,
-      MCC; ademas FPR@TPR=0.95 y precision@TPR=0.95 (independientes del umbral).
+      Punto de operacion de cada modelo en el umbral de Youden: TPR, FPR,
+      precision, recall, F1, especificidad, accuracy, MCC, FPR@TPR=0.95 y
+      precision@TPR=0.95.
 
   TFG_LaTeX/img/fig_roc_pr.png      Curvas ROC y precision-recall (XGB vs MLP).
   TFG_LaTeX/img/fig_confusion.png   Matrices de confusion in-domain (umbral Youden).
-
-Las probabilidades son las mismas que usa la memoria: crudas en XGBoost (su
-umbral de Youden se fija sobre el score bruto) y calibradas con Platt en el
-MLP. El AUC es invariante a la calibracion, de modo que las curvas ROC/PR
-coinciden con las metricas del Capitulo de resultados.
-
-Nota: la precision depende de la proporcion ataque/benigno del test (aqui
-~50/50). En un despliegue real, con tasa base de ataque mucho menor, la
-precision a igual umbral seria inferior; el valor que se reporta es el del
-conjunto de evaluacion.
 """
 import sys
 from pathlib import Path
@@ -89,9 +79,7 @@ def main():
     mlp = MLPWrapper(**MLP_PARAMS).fit_with_calibration(Xtr, ytr)
     p_mlp = mlp.predict_proba(Xte)[:, 1]
 
-    # Vectores de test "novedosos": su combinacion de 4 features no aparece en
-    # el train. El AUC sobre ellos es la estimacion in-domain no optimista (sin
-    # el efecto de memorizar vectores repetidos: solo hay ~5800 vectores unicos).
+    # Vectores de test cuya combinacion de features no aparece en el train
     ktr = {tuple(np.round(v, 6)) for v in Xtr}
     novel = np.array([tuple(np.round(v, 6)) not in ktr for v in Xte])
     print(f"  Vectores de test novedosos: {int(novel.sum())} ({100*novel.mean():.1f}%)")
@@ -149,10 +137,7 @@ def main():
     plt.savefig(IMG / "fig_roc_pr.png", bbox_inches="tight"); plt.close()
     print(f"  guardada fig_roc_pr.png")
 
-    # Figura matriz de confusion (in-domain, umbral de Youden)
-    # Conteos en el punto de operacion de cada modelo (mismo umbral que la
-    # tabla de punto de operacion). El color de cada celda es la fraccion por
-    # fila (clase real): la diagonal es TPR/TNR, la antidiagonal FNR/FPR.
+    # Matriz de confusion in-domain (umbral de Youden); color = fraccion por fila
     fig, axes = plt.subplots(1, 2, figsize=(8.2, 3.7))
     labels = ["Benigno", "Ataque"]
     for ax, name, p, thr, cmap in [
