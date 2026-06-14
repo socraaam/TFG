@@ -1,5 +1,5 @@
 """
-generar_figuras.py — Genera las figuras del TFG a partir de los CSV de resultados
+Genera las figuras del TFG a partir de los CSV de resultados
 Lee los CSV escritos por entrenar_xgboost.py y entrenar_mlp.py y produce los PNG
 
 Salida en TFG/img/:
