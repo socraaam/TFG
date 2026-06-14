@@ -1,3 +1,0 @@
-# Algún CSV de Datasets/ puede acercarse al límite de 100 MB por fichero de
-# GitHub, así que se versiona con Git LFS. Requiere ejecutar una vez: git lfs install
-Datasets/*.csv filter=lfs diff=lfs merge=lfs -text
