@@ -1,15 +1,11 @@
 """
-generar_figuras_modelos.py — Metricas operativas y figuras de resultados de modelos
-Reentrena el XGBoost y el MLP finales sobre el mismo split in-domain 70/30
-(semilla 42) y produce:
+resultados/operating_points/operating_points.csv
+Punto de operacion de cada modelo en el umbral de Youden: TPR, FPR,
+precision, recall, F1, especificidad, accuracy, MCC, FPR@TPR=0.95 y
+precision@TPR=0.95.
 
-  resultados/operating_points/operating_points.csv
-      Punto de operacion de cada modelo en el umbral de Youden: TPR, FPR,
-      precision, recall, F1, especificidad, accuracy, MCC, FPR@TPR=0.95 y
-      precision@TPR=0.95.
-
-  TFG_LaTeX/img/fig_roc_pr.png      Curvas ROC y precision-recall (XGB vs MLP).
-  TFG_LaTeX/img/fig_confusion.png   Matrices de confusion in-domain (umbral Youden).
+TFG/img/fig_roc_pr.png      Curvas ROC y precision-recall (XGB vs MLP).
+TFG/img/fig_confusion.png   Matrices de confusion in-domain (umbral Youden).
 """
 import sys
 from pathlib import Path
@@ -32,7 +28,7 @@ from lib.constantes import (FEATURES_OPTIMAL as FEATURES,
 from lib.estilo_figuras import aplicar_estilo, C_XGB, C_MLP
 
 RES = ROOT / "resultados"
-IMG = ROOT / "TFG_LaTeX" / "img"
+IMG = ROOT / "TFG" / "img"
 OP_DIR = RES / "operating_points"
 SEED = 42
 

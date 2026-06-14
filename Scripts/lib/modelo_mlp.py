@@ -1,5 +1,5 @@
 """
-modelo_mlp.py — MLPWrapper para la comparativa XGBoost vs MLP
+MLPWrapper para la comparativa XGBoost vs MLP
 MLP de scikit-learn con StandardScaler + Platt scaling, con la misma interfaz
 que XGBFocused (fit_with_calibration / predict_proba / threshold).
 """

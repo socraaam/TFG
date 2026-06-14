@@ -1,5 +1,5 @@
 """
-estilo_figuras.py — Estilo matplotlib y paleta compartidos por las figuras.
+Estilo para las figuras
 """
 
 import matplotlib.pyplot as plt

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-# Extractor DNS compatible con Mendeley DOI 10.17632/c4n7fckkz3.3
-# Genera 22 columnas: user_ip, domain, timestamp, attack, request, +18 features
-# Uso: python pcap_a_dataset.py --from-capturas --label 1/0
+"""
+Extractor DNS compatible con Mendeley DOI 10.17632/c4n7fckkz3.3
+Genera 22 columnas: user_ip, domain, timestamp, attack, request, +18 features
+Uso: python pcap_a_dataset.py --from-capturas --label 1/0
+"""
 
 from __future__ import annotations
 

@@ -1,13 +1,12 @@
 """
-construir_dataset_unificado.py — Genera dataset_unificado.csv
-  - Lowercasing universal antes de cualquier feature
+Genera dataset_unificado.csv
+  - Lowercasing para todo
   - 13 features
-  - Muestreo estratificado de dataset.csv (scan 70 chunks, samplea del pool completo)
-  - Topes proporcionales por familia (~86,596 ataques por familia)
+  - Kaggle + mendeley + propio
+  - Aplica topes de muestreo
 
 Rutas:
-  DATA_ROOT = datos crudos externos (no versionados), configurable con la
-              variable de entorno TFG_DATA_ROOT.
+  DATA_ROOT = datos externos, configurar con TFG_DATA_ROOT
   OUT_DIR   = <raiz_del_proyecto>/Datasets
 
 Uso:
@@ -140,7 +139,7 @@ def load_mendeley_modified(path: Path) -> pd.DataFrame:
 
 
 def load_mendeley_stratified(path: Path) -> pd.DataFrame:
-    """Muestreo estratificado de dataset.csv recorriendo todos los chunks."""
+    """Muestreo recorriendo todos los chunks."""
     atk_records, ben_records = [], []
     for chunk in pd.read_csv(path, header=None, names=MENDELEY_COLS,
                               chunksize=500_000, low_memory=False):

@@ -1,8 +1,7 @@
 """
-entrenar_mlp.py — HPO Optuna + entrenamiento final MLP + evaluacion
-Features: FEATURES_OPTIMAL_B = [avg_label_len, subdomain_len, special_ratio, fqdn_len]
+HPO Optuna + entrenamiento final MLP + evaluacion
 Dataset: dataset_unificado.csv (3 familias)
-Modelo: sklearn MLPClassifier + Platt scaling (comparable con XGBoost)
+Modelo: sklearn MLPClassifier + Platt scaling 
 HPO: Optuna 10 trials, LODO_mean, dataset completo
 Explicabilidad: LIME sobre 300 ejemplos del test
 

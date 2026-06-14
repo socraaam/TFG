@@ -1,7 +1,7 @@
 """
-seleccion_features.py — Greedy forward feature selection para el XGBoost
-Dataset  : dataset_unificado.csv (3 familias: word_based/base32/encoded)
-Metrica  : LODO_mean = media de AUC sobre 3 folds de familia
+Greedy forward feature selection para el XGBoost
+Dataset  : dataset_unificado.csv 
+Metrica  : mejorar LODO_mean
 Criterio : greedy forward, anadir feature mientras DELTA LODO_mean > 0.001
 Seed     : 42
 

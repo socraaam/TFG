@@ -1,11 +1,10 @@
 """
-entrenar_xgboost.py — HPO Optuna + entrenamiento final XGBoost + evaluacion
+HPO Optuna + entrenamiento final XGBoost + evaluacion
 HPO propio (Optuna, 50 trials, LODO_mean) y, con los mejores hiperparametros,
 entrenamiento y evaluacion del modelo final.
 
-Features : FEATURES_OPTIMAL_B = [avg_label_len, subdomain_len, special_ratio, fqdn_len]
 Dataset  : dataset_unificado.csv (3 familias)
-Explicab.: SHAP TreeExplainer sobre 2000 ejemplos del test
+Explicabilidaad: SHAP TreeExplainer sobre 2000 ejemplos del test
 
 Guarda en resultados/modelo_xgboost/:
   modelo_xgboost.ubj                  — modelo serializado

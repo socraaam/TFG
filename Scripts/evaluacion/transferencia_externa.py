@@ -1,9 +1,9 @@
 """
-transferencia_externa.py — Transferencia de los modelos finales a fuentes externas
-Entrena XGBoost y MLP (FEATURES_OPTIMAL_B e hiperparametros Optuna) sobre propio
+Transferencia de los modelos finales a fuentes externas
+Entrena XGBoost y MLP (FEATURES_OPTIMAL HPO Optuna) sobre propio
 y mendeley (familias base32 y word_based) y los evalua sobre la familia encoded
-de Kaggle, no vista en el entrenamiento. Mide AUC y score medio de ataque y
-benigno en cada destino.
+de Kaggle
+Mide AUC y score medio de ataque y benigno en cada destino.
 
 Salida: resultados/transferencia_externa/transferencia_externa.csv
 """

@@ -1,11 +1,10 @@
 """
-feature_saturation.py — Curva de saturacion del numero de features
-Parte de las 4 features del modelo final (orden del forward selection) y
+Curva de saturacion del numero de features
+Parte de las 4 features del modelo final y
 extiende con greedy hasta 13, midiendo en cada k el AUC LODO por familia y el
-AUC/AP in-domain (split 70/30). El punto k=4 es el modelo del trabajo.
+AUC/AP in-domain (70/30). El punto k=4 es el modelo del trabajo.
 
 Salida: resultados/feature_saturation/feature_saturation.csv
-        (k, added, word_based, base32, encoded, lodo_mean, indomain_auc, indomain_ap)
 Dataset: dataset_unificado.csv (3 familias)   Seed: 42
 """
 import sys, time, logging

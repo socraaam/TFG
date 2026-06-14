@@ -1,9 +1,8 @@
 """
 generar_figuras.py — Genera las figuras del TFG a partir de los CSV de resultados
-Lee los CSV escritos por entrenar_xgboost.py y entrenar_mlp.py, y produce los PNG
-que se enlazan desde la memoria LaTeX.
+Lee los CSV escritos por entrenar_xgboost.py y entrenar_mlp.py y produce los PNG
 
-Salida en TFG_LaTeX/img/:
+Salida en TFG/img/:
   fig_seleccion_features.png   Progresion AUC LODO en el forward selection
   fig_feature_saturation.png    Curva de saturacion LODO vs in-domain (justifica 4 features)
 
@@ -17,7 +16,7 @@ import pandas as pd
 
 ROOT  = Path(__file__).resolve().parents[2]
 RES   = ROOT / "resultados"
-IMG   = ROOT / "TFG_LaTeX" / "img"
+IMG   = ROOT / "TFG" / "img"
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from lib.estilo_figuras import aplicar_estilo, C_XGB, C_MLP, C_BEN, C_FAM

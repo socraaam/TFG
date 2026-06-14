@@ -1,13 +1,12 @@
 #!/bin/bash
 # orquestador.sh — Orquestador de túneles DNS con iodine
 
-# Ejecuta automáticamente 3 sesiones: TXT → NULL → A
+# Ejecuta automáticamente las 3 sesiones
 # Coordina servidor (local) y cliente (remoto).
 
 # Uso:
 #   1. En el servidor: ./orquestador.sh
-#   2. En el cliente (cuando se indique):
-#      ./cliente_dns.sh TXT   (luego NULL, luego A)
+#   2. En el cliente: ./cliente_dns.sh 
 
 TIPOS_DNS=("TXT" "NULL" "A")
 SERVIDOR_SCRIPT="./servidor_dns.sh"

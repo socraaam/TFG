@@ -1,14 +1,12 @@
 """
-constantes.py — Listas de features e hiperparametros compartidos.
+Features y hpo compartidos.
 
   FEATURES_13      : 13 candidatas, en el orden en que
-                     las produce compute_features() y las recorre el forward
-                     selection.
-  FEATURES_OPTIMAL : las 4 del modelo final, en el orden del forward selection.
-  XGB_DEFAULT_HP   : hiperparametros por defecto del XGBoost (forward selection
-                     y curva de saturacion).
-  XGB_BEST_HP      : hiperparametros Optuna del XGBoost final.
-  MLP_BEST_HP      : hiperparametros Optuna del MLP final.
+                     las produce compute_features() 
+  FEATURES_OPTIMAL : las 4 del modelo final
+  XGB_DEFAULT_HP   : hiperparametros por defecto del XGBoost 
+  XGB_BEST_HP      : hiperparametros Optuna del XGBoost final
+  MLP_BEST_HP      : hiperparametros Optuna del MLP final
 """
 
 SEED = 42
