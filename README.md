@@ -1,8 +1,6 @@
 # Detección de exfiltración de datos usando DNS tunneling
 
-Trabajo Fin de Grado (EPS-UAM). Detección de túneles DNS con aprendizaje
-automático sobre el contenido estructural del FQDN, con foco en la
-generalización entre familias de codificación.
+TFG EPS UAM
 
 ## Estructura del repositorio
 
