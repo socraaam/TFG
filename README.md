@@ -22,15 +22,12 @@ TFG/
 ## Reproducir los resultados
 
 ```cmd
-# Cadena principal (modelo final)
 python Scripts/features/seleccion_features.py        # selección de las 4 features
 python Scripts/modelos/entrenar_xgboost.py            # XGBoost: HPO (50 trials) + evaluación
 python Scripts/modelos/entrenar_mlp.py                # MLP: HPO (10 trials) + evaluación
 python Scripts/features/feature_saturation.py         # curva de saturación 
 python Scripts/figuras/generar_figuras_modelos.py     # puntos de operación + ROC/PR/calibración/confusión
 python Scripts/figuras/generar_figuras.py             # resto de figuras 
-
-# Experimentos complementarios
 python Scripts/evaluacion/transferencia_externa.py    # transferencia a Kaggle encoded 
 ```
 
