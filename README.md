@@ -7,10 +7,10 @@ TFG EPS UAM
 ```
 TFG/
 ├── Scripts/         (ver Scripts/README.md)
-│   ├── captura/     Laboratorio de captura del dataset propio (§3.1)
-│   ├── dataset/     Construcción del dataset unificado (§3.2)
-│   ├── features/    Selección y saturación de features (§3.3)
-│   ├── modelos/     XGBoost y MLP (§3.4)
+│   ├── captura/     Laboratorio de captura del dataset propio (cap 3.1)
+│   ├── dataset/     Construcción del dataset unificado (cap 3.2)
+│   ├── features/    Selección y saturación de features (cap 3.3)
+│   ├── modelos/     XGBoost y MLP (cap 3.4)
 │   ├── evaluacion/  Transferencia entre dominios (cap. 4)
 │   ├── figuras/     Generación de las figuras de la memoria
 │   └── lib/         Código compartido

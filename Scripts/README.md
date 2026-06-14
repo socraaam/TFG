@@ -9,29 +9,29 @@ Scripts usados
 
 | Script | Función | Sección |
 |---|---|---|
-| `orquestador.sh` | Coordina las sesiones de exfiltración | §3.1 |
-| `servidor_dns.sh` / `cliente_dns.sh` | Servidor (Kali) y cliente (Ubuntu) respectivamente. | §3.1 |
-| `pcap_a_dataset.py` | Extrae el dataset propio desde los PCAP con el esquema de Mendeley | §3.1 |
+| `orquestador.sh` | Coordina las sesiones de exfiltración | cap 3.1 |
+| `servidor_dns.sh` / `cliente_dns.sh` | Servidor (Kali) y cliente (Ubuntu) respectivamente. | cap 3.1 |
+| `pcap_a_dataset.py` | Extrae el dataset propio desde los PCAP con el esquema de Mendeley | cap 3.1 |
 
 ### dataset/
 
 | Script | Función | Sección |
 |---|---|---|
-| `construir_dataset_unificado.py` | Construye `dataset_unificado.csv` | §3.2 |
+| `construir_dataset_unificado.py` | Construye `dataset_unificado.csv` | cap 3.2 |
 
 ### features/ 
 
 | Script | Función | Sección |
 |---|---|---|
-| `seleccion_features.py` | Produce el conjunto final de 4 features | §3.3 |
-| `feature_saturation.py` | Curva de saturación para justificar las 4 features | §3.3 |
+| `seleccion_features.py` | Produce el conjunto final de 4 features | cap 3.3 |
+| `feature_saturation.py` | Curva de saturación para justificar las 4 features | cap 3.3 |
 
 ### modelos/
 
 | Script | Función | Sección |
 |---|---|---|
-| `entrenar_xgboost.py` | Optimización, entrenamiento y resultados | §3.4, cap. 4 |
-| `entrenar_mlp.py` | Optimización, entrenamiento y resultados | §3.4, cap. 4 |
+| `entrenar_xgboost.py` | Optimización, entrenamiento y resultados | cap 3.4, cap. 4 |
+| `entrenar_mlp.py` | Optimización, entrenamiento y resultados | cap 3.4, cap. 4 |
 
 ### evaluacion/ 
 
