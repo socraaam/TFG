@@ -3,9 +3,6 @@ familias.py — Asignacion de familia y evaluacion LODO compartidas
 Centraliza el mapa fuente->familia, la politica de benignos y el bucle
 leave-one-family-out (LODO) usados por seleccion_features.py,
 entrenar_xgboost.py, entrenar_mlp.py y feature_saturation.py.
-
-El modulo es agnostico al modelo: lodo_auc() recibe una make_model()
-que devuelve un objeto con .fit_with_calibration(X, y) y .predict_proba(X).
 """
 import numpy as np
 import pandas as pd
